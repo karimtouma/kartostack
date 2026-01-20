@@ -31,6 +31,40 @@ if ! curl -sf "http://${OLLAMA_HOST}:${OLLAMA_PORT}/" > /dev/null 2>&1; then
   exit 1
 fi
 
+# Pre-warm model (avoid cold start)
+# Check if model is already loaded in memory
+LOADED_MODEL=$(curl -sf "http://${OLLAMA_HOST}:${OLLAMA_PORT}/api/ps" | grep -o "\"$CLAUDE_MODEL\"" || true)
+
+if [ -z "$LOADED_MODEL" ]; then
+  echo "🔥 Pre-cargando modelo $CLAUDE_MODEL en memoria..."
+  echo "   (Esto puede tardar 1-2 minutos la primera vez)"
+
+  # Trigger model load with empty prompt (returns immediately after loading)
+  curl -sf "http://${OLLAMA_HOST}:${OLLAMA_PORT}/api/generate" \
+    -d "{\"model\": \"$CLAUDE_MODEL\", \"prompt\": \"\", \"stream\": false}" \
+    > /dev/null 2>&1 &
+
+  # Wait for model to appear in loaded models
+  echo -n "   Cargando"
+  for i in {1..120}; do
+    if curl -sf "http://${OLLAMA_HOST}:${OLLAMA_PORT}/api/ps" | grep -q "$CLAUDE_MODEL"; then
+      echo " ✓"
+      break
+    fi
+    echo -n "."
+    sleep 1
+  done
+
+  # Verify model is loaded
+  if ! curl -sf "http://${OLLAMA_HOST}:${OLLAMA_PORT}/api/ps" | grep -q "$CLAUDE_MODEL"; then
+    echo ""
+    echo "⚠️  Warning: No se pudo verificar que el modelo esté cargado"
+    echo "   El primer prompt puede ser lento"
+  fi
+else
+  echo "✓ Modelo $CLAUDE_MODEL ya está en memoria"
+fi
+
 # Build image if needed
 if ! docker image inspect "$IMAGE_NAME" > /dev/null 2>&1; then
   echo "Building $IMAGE_NAME image..."
