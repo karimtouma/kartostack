@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "serper": {
+      "command": "node",
+      "args": ["/app/mcp-servers/serper/index.js"],
+      "env": {
+        "SERPER_API_KEY": "${SERPER_API_KEY}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/workspace"]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "env": {
+        "PUPPETEER_EXECUTABLE_PATH": "/usr/bin/chromium"
+      }
+    }
+  }
+}

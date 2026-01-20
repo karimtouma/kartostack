@@ -1,0 +1,19 @@
+{
+  "theme": "dark",
+  "verbose": false,
+  "editorMode": false,
+  "oauth": null,
+  "mcpServers": {},
+  "projects": {
+    "/workspace": {
+      "allowedTools": ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebFetch", "Task", "TodoWrite"],
+      "hasTrustDialogAccepted": true,
+      "hasCompletedProjectOnboarding": true
+    }
+  },
+  "lastAcknowledgedAnnouncement": "2026-01-01",
+  "hasCompletedOnboarding": true,
+  "hasAcknowledgedCostWarning": true,
+  "hasAcceptedBypassPermissions": true,
+  "hasAcknowledgedCustomApiKey": true
+}

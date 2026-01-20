@@ -1,0 +1,14 @@
+{
+  "name": "mcp-serper",
+  "version": "1.0.0",
+  "description": "MCP Server for Serper API - Web Search and Browser Tools",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}

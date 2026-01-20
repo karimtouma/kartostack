@@ -1,0 +1,43 @@
+{
+  "apiKeyHelper": "echo ollama",
+  "model": "glm-4.7-flash-82k",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://host.docker.internal:11434"
+  },
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(python:*)",
+      "Bash(pip:*)",
+      "Bash(curl:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "Task",
+      "TodoWrite",
+      "mcp__serper__web_search",
+      "mcp__serper__news_search",
+      "mcp__serper__image_search",
+      "mcp__serper__scrape_webpage",
+      "mcp__serper__fetch_url",
+      "mcp__filesystem__read_file",
+      "mcp__filesystem__write_file",
+      "mcp__filesystem__list_directory",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot",
+      "mcp__puppeteer__puppeteer_click",
+      "mcp__puppeteer__puppeteer_fill",
+      "mcp__puppeteer__puppeteer_select",
+      "mcp__puppeteer__puppeteer_hover",
+      "mcp__puppeteer__puppeteer_evaluate"
+    ],
+    "deny": [],
+    "additionalDirectories": ["/workspace"]
+  }
+}

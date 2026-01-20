@@ -1,0 +1,16 @@
+# Modelfile para GLM-4.7-flash con 82k de contexto
+#
+# Uso:
+#   ollama create glm-4.7-flash-82k -f Modelfile.82k
+#
+# El modelo base tiene 198k de contexto máximo, pero usamos 82k
+# para balance entre capacidad y uso de memoria (~97GB con q8_0)
+
+FROM glm-4.7-flash
+
+# Contexto de 82k tokens
+PARAMETER num_ctx 82000
+
+# Mantener modelo en memoria indefinidamente (para 24x7)
+# Descomenta si quieres que el modelo nunca se descargue
+# PARAMETER keep_alive -1
