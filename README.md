@@ -367,19 +367,48 @@ ollama create glm-4.7-flash-198k -f /tmp/Modelfile.198k
 | 82k | 82,000 | ~97GB | **Default** - Balance |
 | 198k | 198,000 | ~200GB | Tareas con mucho contexto |
 
-### Mantener Modelo en Memoria 24/7
+### Pre-carga Automática del Modelo (Anti Cold Start)
 
-Para que Ollama no descargue el modelo después de un tiempo de inactividad:
+El script `run.sh` **pre-carga automáticamente** el modelo en memoria antes de iniciar el container, eliminando el "cold start":
 
 ```bash
-# Configurar keep_alive infinito
+./scripts/run.sh
+```
+
+**Si el modelo ya está en memoria:**
+```
+✓ Modelo glm-4.7-flash-82k ya está en memoria
+```
+
+**Si necesita cargarse (~1-2 minutos):**
+```
+🔥 Pre-cargando modelo glm-4.7-flash-82k en memoria...
+   (Esto puede tardar 1-2 minutos la primera vez)
+   Cargando........................ ✓
+```
+
+El agente está listo para responder **inmediatamente** cuando se inicia la sesión.
+
+### Mantener Modelo en Memoria 24/7
+
+Para que Ollama **nunca** descargue el modelo de memoria (ideal para uso continuo):
+
+```bash
+# Opción 1: Variable de entorno al iniciar Ollama
+OLLAMA_KEEP_ALIVE=-1 ollama serve
+
+# Opción 2: Configurar al cargar el modelo
 ollama run glm-4.7-flash-82k --keepalive -1
 ```
 
-O agregar a tu Modelfile:
+O agregar permanentemente en el Modelfile:
 ```
+FROM glm-4.7-flash
+PARAMETER num_ctx 82000
 PARAMETER keep_alive -1
 ```
+
+> **Nota**: Con `keep_alive=-1`, el modelo permanece en memoria (~97GB) hasta que reinicies Ollama o tu máquina.
 
 ### Configuración de MCP Servers
 
